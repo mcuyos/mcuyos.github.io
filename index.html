@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michelle Cuyos | Portfolio</title>
+    <style>
+        :root {
+            --pink: #ff82c8;
+            --pink-soft: #ffd0ea;
+            --peach: #ffd4b5;
+            --ink: #080514;
+            --panel: rgba(9, 8, 24, 0.56);
+            --line: rgba(255, 160, 214, 0.34);
+            --text: #fff7fb;
+            --muted: #f8c8db;
+            --scroll-gradient: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y proximity;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--text);
+            font-family: Inter, "Trebuchet MS", Arial, sans-serif;
+            background: var(--ink) url("bg.png") center / cover fixed;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body::before {
+            background:
+                linear-gradient(90deg, rgba(6, 2, 22, 0.18), rgba(32, 9, 48, 0.32), rgba(255, 114, 174, 0.1)),
+                radial-gradient(circle at 78% 30%, rgba(255, 130, 200, 0.18), transparent 34%),
+                radial-gradient(circle at 24% 72%, rgba(255, 180, 118, 0.12), transparent 36%);
+            opacity: calc(0.08 + (var(--scroll-gradient) * 0.72));
+        }
+
+        body::after {
+            background:
+                linear-gradient(180deg, transparent 0%, rgba(8, 3, 20, 0.18) 46%, rgba(7, 3, 18, 0.84) 100%),
+                linear-gradient(90deg, rgba(7, 3, 18, 0.28), rgba(7, 3, 18, 0.1) 45%, rgba(7, 3, 18, 0.46));
+            opacity: var(--scroll-gradient);
+        }
+
+        .motion-bg {
+            --city-focus-x: 42%;
+            --city-focus-y: 50%;
+            --city-zoom: 1;
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            overflow: hidden;
+            background: url("bg.png") var(--city-focus-x) var(--city-focus-y) / cover no-repeat;
+        }
+
+        .motion-frame {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: var(--city-focus-x) var(--city-focus-y);
+            transform: scale(var(--city-zoom));
+            filter: saturate(1.08) contrast(1.05);
+            transform-origin: var(--city-focus-x) var(--city-focus-y);
+            will-change: transform, object-position;
+        }
+
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 24px clamp(20px, 5vw, 72px);
+            color: white;
+        }
+
+        .brand {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+        }
+
+        .site-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 999px;
+            background: rgba(8, 5, 18, 0.36);
+            backdrop-filter: blur(14px);
+        }
+
+        .site-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 9px 14px;
+            border-radius: 999px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .site-nav a:hover,
+        .site-nav a:focus-visible {
+            color: #211025;
+            background: var(--pink-soft);
+            outline: none;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 125vh;
+            padding: 0 clamp(22px, 6vw, 96px);
+            scroll-snap-align: start;
+        }
+
+        .hero-stage {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: grid;
+            align-items: end;
+            justify-items: end;
+            padding-bottom: clamp(78px, 13vh, 148px);
+        }
+
+        .hero-copy {
+            width: min(720px, 50vw);
+            text-align: right;
+            transform-origin: 100% 72%;
+            will-change: transform, opacity, filter;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 18px;
+            color: var(--peach);
+            font-size: clamp(12px, 1.2vw, 14px);
+            font-weight: 900;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 38px;
+            height: 2px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--pink), var(--peach));
+            box-shadow: 0 0 22px rgba(255, 130, 200, 0.85);
+        }
+
+        .gta-title {
+            max-width: 1080px;
+            font-size: clamp(56px, 10vw, 150px);
+            line-height: 0.82;
+            font-weight: 950;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #dc62a3 0%, #e694b5 48%, #efba9b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter:
+                drop-shadow(0 4px 0 rgba(168, 74, 131, 0.28))
+                drop-shadow(0 8px 16px rgba(198, 111, 157, 0.24));
+            opacity: 0.96;
+        }
+
+        .gta-description {
+            max-width: 720px;
+            margin-left: auto;
+            margin-top: 24px;
+            color: #ffd5e6;
+            font-size: clamp(19px, 2.2vw, 31px);
+            line-height: 1.1;
+            font-weight: 900;
+            text-shadow: 0 3px 26px rgba(0, 0, 0, 0.48);
+            will-change: opacity, transform;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 14px;
+            margin-top: 30px;
+            will-change: opacity, transform;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 20px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 999px;
+            color: white;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(14px);
+            text-decoration: none;
+            font-weight: 900;
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+
+        .button.primary {
+            color: #220d22;
+            border-color: transparent;
+            background: linear-gradient(135deg, var(--pink), var(--peach));
+            box-shadow: 0 18px 48px rgba(255, 117, 193, 0.26);
+        }
+
+        .button:hover,
+        .button:focus-visible {
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .scroll-cue {
+            position: fixed;
+            right: clamp(22px, 5vw, 76px);
+            bottom: 34px;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .scroll-cue span {
+            display: block;
+            width: 24px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.55);
+            border-radius: 999px;
+            position: relative;
+        }
+
+        .scroll-cue span::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 9px;
+            width: 4px;
+            height: 8px;
+            border-radius: 999px;
+            background: white;
+            transform: translateX(-50%);
+            animation: wheel 1.5s ease-in-out infinite;
+        }
+
+        @keyframes wheel {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, 0);
+            }
+
+            35% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, 12px);
+            }
+        }
+
+        main {
+            position: relative;
+            z-index: 5;
+            background: transparent;
+        }
+
+        main::before {
+            display: none;
+        }
+
+        .panel-section {
+            min-height: 100svh;
+            display: flex;
+            align-items: flex-start;
+            padding: clamp(108px, 13vh, 142px) clamp(22px, 6vw, 96px) clamp(58px, 7vh, 82px);
+            scroll-margin-top: 0;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        #profile {
+            padding-top: clamp(108px, 13vh, 142px);
+        }
+
+        .section-shell {
+            width: min(1180px, 100%);
+            margin: 0 auto;
+        }
+
+        .section-heading {
+            max-width: 820px;
+            min-height: clamp(184px, 22vh, 238px);
+            margin-bottom: clamp(22px, 3.6vh, 38px);
+        }
+
+        .kicker {
+            color: var(--peach);
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            margin-top: 12px;
+            color: white;
+            font-size: clamp(34px, 5vw, 68px);
+            line-height: 1;
+            letter-spacing: 0;
+            text-shadow: 0 6px 34px rgba(0, 0, 0, 0.45);
+        }
+
+        .lead {
+            margin-top: 18px;
+            max-width: 780px;
+            color: #ffe2ef;
+            font-size: clamp(17px, 1.85vw, 22px);
+            line-height: 1.35;
+            font-weight: 700;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(190px, 1fr));
+            gap: clamp(16px, 1.6vw, 28px);
+            margin-top: 0;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .flip-card {
+            width: 100%;
+            max-width: 420px;
+            perspective: 1000px;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .flip-card:hover,
+        .flip-card:focus,
+        .flip-card:focus-within {
+            z-index: 20;
+        }
+
+        .flip-inner {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: clamp(190px, 15vw, 240px);
+            transform-style: preserve-3d;
+            transform-origin: center top;
+            transition: transform 0.72s ease, height 0.72s ease;
+        }
+
+        .flip-card:hover .flip-inner,
+        .flip-card:focus .flip-inner,
+        .flip-card:focus-within .flip-inner {
+            height: 300px;
+            transform: translateY(22px) rotateY(180deg);
+        }
+
+        .flip-front,
+        .flip-back {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(18px, 1.6vw, 26px);
+            width: 100%;
+            max-width: 100%;
+            min-height: clamp(190px, 15vw, 240px);
+            padding: clamp(24px, 2.2vw, 34px) clamp(18px, 2vw, 30px);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background:
+                linear-gradient(135deg, rgba(255, 130, 200, 0.12), rgba(255, 212, 181, 0.06) 38%, rgba(9, 8, 24, 0.62) 100%),
+                var(--panel);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -34px 70px rgba(20, 5, 31, 0.42),
+                0 24px 80px rgba(0, 0, 0, 0.22);
+            backdrop-filter: blur(16px);
+            backface-visibility: hidden;
+        }
+
+        .flip-card button {
+            all: unset;
+            display: contents;
+        }
+
+        .flip-icon {
+            width: clamp(70px, 5.5vw, 88px);
+            height: clamp(70px, 5.5vw, 88px);
+            padding: 12px;
+            border-radius: 24px;
+            color: var(--pink);
+            background:
+                radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.34), transparent 21%),
+                radial-gradient(circle at 50% 50%, rgba(255, 130, 200, 0.28), rgba(92, 22, 74, 0.18) 58%, transparent 72%);
+            box-shadow:
+                inset 0 1px 16px rgba(255, 208, 234, 0.16),
+                inset 0 -16px 26px rgba(74, 14, 59, 0.28),
+                0 14px 34px rgba(255, 130, 200, 0.16);
+            filter:
+                drop-shadow(0 3px 0 rgba(91, 18, 70, 0.84))
+                drop-shadow(0 0 18px rgba(255, 130, 200, 0.5));
+            stroke-width: 2.2;
+        }
+
+        .flip-icon * {
+            vector-effect: non-scaling-stroke;
+        }
+
+        .flip-front h3,
+        .feature h3,
+        .timeline-card h3 {
+            color: white;
+            font-size: 23px;
+            line-height: 1.05;
+        }
+
+        .flip-front h3 {
+            max-width: 320px;
+            color: #ffd0ea;
+            font-size: clamp(24px, 2vw, 34px);
+            line-height: 1.15;
+            text-align: center;
+        }
+
+        .flip-back {
+            position: absolute;
+            inset: 0 auto auto 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+            color: #ffe2ef;
+            font-size: 16px;
+            line-height: 1.4;
+            font-weight: 700;
+            transition: opacity 0.36s ease 0.18s;
+        }
+
+        .flip-card:hover .flip-back,
+        .flip-card:focus .flip-back,
+        .flip-card:focus-within .flip-back {
+            opacity: 1;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 16px;
+            margin-top: 0;
+        }
+
+        .feature,
+        .timeline-card,
+        .contact-panel {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: rgba(8, 7, 22, 0.62);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+            backdrop-filter: blur(16px);
+        }
+
+        .feature {
+            padding: clamp(22px, 3vw, 30px);
+        }
+
+        .feature p,
+        .timeline-card p,
+        .contact-panel p {
+            margin-top: 12px;
+            color: #ffe4f0;
+            font-size: 16px;
+            line-height: 1.5;
+            font-weight: 650;
+        }
+
+        .skill-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .skill-cloud span {
+            padding: 8px 11px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 999px;
+            color: #fff3f9;
+            background: rgba(255, 255, 255, 0.08);
+            font-size: 13px;
+            font-weight: 850;
+        }
+
+        .timeline {
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: 18px;
+            row-gap: clamp(22px, 4vh, 42px);
+            margin-top: 0;
+            align-items: start;
+        }
+
+        .timeline-card {
+            position: relative;
+            width: fit-content;
+            max-width: min(100%, 560px);
+            padding: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+            backdrop-filter: none;
+            perspective: 1200px;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .timeline-card.is-open,
+        .timeline-card.is-closing {
+            z-index: 20;
+            margin-bottom: 34px;
+        }
+
+        .timeline-inner {
+            position: relative;
+            width: max-content;
+            max-width: min(100%, 560px);
+            height: 112px;
+            min-height: 0;
+            transform-style: preserve-3d;
+            transform: translateY(0) rotateY(0deg);
+            max-height: 122px;
+            transform-origin: center top;
+        }
+
+        .timeline-card.is-open .timeline-inner {
+            height: 270px;
+            transform: translateY(22px) rotateY(180deg);
+            max-height: 420px;
+            animation: timelineOpen 0.78s ease-in-out forwards;
+        }
+
+        .timeline-card.is-closing .timeline-inner {
+            max-height: 420px;
+            animation: timelineClose 0.78s ease-in-out forwards;
+        }
+
+        .timeline-face {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: max-content;
+            max-width: min(100%, 560px);
+            min-height: 112px;
+            padding: 24px 30px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: rgba(8, 7, 22, 0.7);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
+            backdrop-filter: blur(16px);
+            backface-visibility: hidden;
+            overflow: hidden;
+        }
+
+        .timeline-back {
+            position: absolute;
+            inset: 0 auto auto 0;
+            width: min(560px, calc(100vw - 44px));
+            height: 100%;
+            opacity: 0;
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+            overflow: visible;
+        }
+
+        .timeline-card.is-open .timeline-back {
+            animation: timelineBackOpen 0.78s ease-in-out forwards;
+        }
+
+        .timeline-card.is-closing .timeline-back {
+            animation: timelineBackClose 0.78s ease-in-out forwards;
+        }
+
+        @keyframes timelineOpen {
+            0% {
+                height: 112px;
+                transform: translateY(0) rotateY(0deg);
+            }
+
+            100% {
+                height: 270px;
+                transform: translateY(22px) rotateY(180deg);
+            }
+        }
+
+        @keyframes timelineClose {
+            0% {
+                height: 270px;
+                transform: translateY(22px) rotateY(180deg);
+            }
+
+            100% {
+                height: 112px;
+                transform: translateY(0) rotateY(0deg);
+            }
+        }
+
+        @keyframes timelineBackOpen {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes timelineBackClose {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .timeline-card time {
+            color: var(--peach);
+            font-size: clamp(20px, 2.2vw, 32px);
+            font-weight: 950;
+            line-height: 1.05;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .timeline-back h3 {
+            color: white;
+            font-size: clamp(19px, 2vw, 27px);
+            line-height: 1;
+        }
+
+        .timeline-back p {
+            margin-top: 14px;
+            color: #ffe4f0;
+            font-size: 15px;
+            line-height: 1.38;
+            font-weight: 700;
+        }
+
+        .contact-panel {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 24px;
+            align-items: center;
+            padding: clamp(28px, 5vw, 58px);
+            margin-top: 0;
+        }
+
+        .contact-links {
+            display: grid;
+            gap: 12px;
+        }
+
+        .contact-links a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 54px;
+            padding: 0 18px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 8px;
+            color: white;
+            background: rgba(255, 255, 255, 0.08);
+            text-decoration: none;
+            font-weight: 900;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 70;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+            background: rgba(0, 0, 0, 0.58);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .popup-card {
+            width: min(520px, 100%);
+            border: 1px solid rgba(255, 160, 214, 0.46);
+            border-radius: 8px;
+            background: rgba(10, 8, 25, 0.9);
+            box-shadow: 0 28px 90px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+        }
+
+        .popup-card h3 {
+            color: var(--pink-soft);
+            font-size: 32px;
+        }
+
+        .popup-card p {
+            margin-top: 14px;
+            color: #ffe4f0;
+            font-size: 18px;
+            line-height: 1.45;
+            font-weight: 700;
+        }
+
+        .popup-close {
+            margin-top: 22px;
+            width: 100%;
+        }
+
+        @media (max-width: 980px) {
+            .site-header {
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .site-nav {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                border-radius: 8px;
+            }
+
+            .hero {
+                min-height: 122vh;
+            }
+
+            .hero-stage {
+                align-items: center;
+                justify-items: end;
+                padding-bottom: 0;
+            }
+
+            .hero-copy {
+                width: min(690px, 58vw);
+            }
+
+            .features,
+            .info-grid,
+            .contact-panel {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .features,
+            .contact-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-card {
+                min-height: 0;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .site-header {
+                position: absolute;
+                padding-top: 18px;
+            }
+
+            .site-nav {
+                display: none;
+            }
+
+            .hero-stage {
+                align-items: end;
+                justify-items: start;
+                padding-bottom: 78px;
+            }
+
+            .hero-copy {
+                width: 100%;
+                text-align: left;
+                transform-origin: 50% 72%;
+            }
+
+            .eyebrow {
+                justify-content: flex-start;
+            }
+
+            .gta-description {
+                margin-left: 0;
+            }
+
+            .gta-title {
+                font-size: clamp(54px, 20vw, 88px);
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: flex-start;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+            .scroll-cue {
+                display: none;
+            }
+
+            .panel-section {
+                min-height: 100svh;
+                padding-top: 86px;
+                padding-bottom: 92px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #profile {
+                padding-top: 86px;
+            }
+
+            .section-heading {
+                min-height: auto;
+                margin-bottom: 28px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .motion-frame,
+            .scroll-cue span::after {
+                animation: none;
+            }
+
+            .hero-copy,
+            .gta-description,
+            .hero-actions,
+            .reveal {
+                transform: none !important;
+                opacity: 1 !important;
+                filter: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="motion-bg" aria-hidden="true">
+        <img class="motion-frame" id="motionFrame" src="bg-frames/frame-000.webp" alt="">
+    </div>
+
+    <header class="site-header">
+        <nav class="site-nav" aria-label="Primary navigation">
+            <a href="#top">Home</a>
+            <a href="#profile">Profile</a>
+            <a href="#skills">Skills</a>
+            <a href="#experience">Experience</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="scroll-cue" aria-hidden="true">Scroll <span></span></div>
+
+    <section class="hero" id="top">
+        <div class="hero-stage">
+            <div class="hero-copy" id="heroCopy">
+                <h1 class="gta-title">Michelle Cuyos</h1>
+                <p class="gta-description" id="heroDescription">
+                    I help businesses run smoothly through technical support, operational service,
+                    and customer-focused solutions.
+                </p>
+                <div class="hero-actions" id="heroActions">
+                    <a class="button primary" href="#profile">Explore Profile</a>
+                    <a class="button" href="#contact">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <section class="panel-section" id="profile">
+            <div class="section-shell">
+                <div class="section-heading reveal">
+                    <p class="kicker">Profile</p>
+                    <h2>Support that feels calm, clear, and accountable.</h2>
+                    <p class="lead">
+                        Makati-based technical support specialist with experience across service desk, incident
+                        management, application support, online proctoring, MSP/MFP support, POS systems, and enterprise
+                        VR environments, with an Associate Degree in Web Application Development.
+                    </p>
+                </div>
+
+                <div class="info-grid reveal" aria-label="Portfolio highlights">
+                    <article class="flip-card" tabindex="0" data-title="Technical Skills"
+                        data-text="Microsoft 365, Outlook, Active Directory, Entra ID, SSO, Windows, macOS, VMware, AVD/VDI, TCP/IP, DNS, DHCP, VPN conditional access, POS, EFTPOS, ServiceNow, Jira, Zendesk, Salesforce, GitHub, PowerShell, and Postman API.">
+                        <button aria-label="Open technical skills details">
+                            <div class="flip-inner">
+                                <div class="flip-front">
+                                    <svg class="flip-icon" viewBox="0 0 64 64" aria-hidden="true">
+                                        <rect x="10" y="14" width="44" height="30" rx="2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M23 53h18M32 44v9M33 35 49 19M40 19h9v9" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <h3>Technical Skills</h3>
+                                </div>
+                                <div class="flip-back">
+                                    <p>Microsoft 365, Active Directory, Entra ID, SSO, Windows, macOS, VMware,
+                                        AVD/VDI, VPN conditional access, POS, EFTPOS, ServiceNow, Jira, Zendesk,
+                                        Salesforce, GitHub, PowerShell, and Postman API.</p>
+                                </div>
+                            </div>
+                        </button>
+                    </article>
+
+                    <article class="flip-card" tabindex="0" data-title="Core Values"
+                        data-text="Faith, integrity, respect, innovation, reliability, ownership, and consistent customer-first communication.">
+                        <button aria-label="Open core values details">
+                            <div class="flip-inner">
+                                <div class="flip-front">
+                                    <svg class="flip-icon" viewBox="0 0 64 64" aria-hidden="true">
+                                        <path d="m32 8 7.4 15 16.6 2.4-12 11.7 2.8 16.5L32 45.8 17.2 53.6 20 37.1 8 25.4 24.6 23 32 8Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <h3>Core Values</h3>
+                                </div>
+                                <div class="flip-back">
+                                    <p>Faith, integrity, respect, innovation, reliability.</p>
+                                </div>
+                            </div>
+                        </button>
+                    </article>
+
+                    <article class="flip-card" tabindex="0" data-title="Experience Highlights"
+                        data-text="Best in QA, Knowledge Base Master, Top Agent Performer, Best in Reliability, MVP, Best Team, Best in VSAT, and contributor to 3 closed major accounts.">
+                        <button aria-label="Open experience highlights details">
+                            <div class="flip-inner">
+                                <div class="flip-front">
+                                    <svg class="flip-icon" viewBox="0 0 64 64" aria-hidden="true">
+                                        <path d="M10 52h44" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                        <rect x="14" y="32" width="8" height="20" rx="1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                        <rect x="28" y="22" width="8" height="30" rx="1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                        <rect x="42" y="13" width="8" height="39" rx="1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M39 12h12v12M37 27 51 13" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <h3>Experience Highlights</h3>
+                                </div>
+                                <div class="flip-back">
+                                    <p>Best in QA, Knowledge Base Master, Top Agent Performer, Best in Reliability,
+                                        MVP, Best Team, Best in VSAT, and contributor to 3 closed major accounts.</p>
+                                </div>
+                            </div>
+                        </button>
+                    </article>
+
+                    <article class="flip-card" tabindex="0" data-title="Process Improvement"
+                        data-text="Created client-facing documentation, supported app deployment and VR testing, trained AI proctoring systems, and made floor layouts that helped close 3 major accounts.">
+                        <button aria-label="Open process improvement details">
+                            <div class="flip-inner">
+                                <div class="flip-front">
+                                    <svg class="flip-icon" viewBox="0 0 64 64" aria-hidden="true">
+                                        <path d="M25.6 8h12.8l2.1 7a19.2 19.2 0 0 1 4.2 2.4l7-1.6 6.4 11.1-5 5.3a20 20 0 0 1 0 4.8l5 5.3-6.4 11.1-7-1.6a19.2 19.2 0 0 1-4.2 2.4l-2.1 7H25.6l-2.1-7a19.2 19.2 0 0 1-4.2-2.4l-7 1.6L5.9 42.3l5-5.3a20 20 0 0 1 0-4.8l-5-5.3 6.4-11.1 7 1.6a19.2 19.2 0 0 1 4.2-2.4l2.1-7Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                        <circle cx="32" cy="34.6" r="9.2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <h3>Process Improvement</h3>
+                                </div>
+                                <div class="flip-back">
+                                    <p>Created client-facing documentation, supported app deployment and VR testing,
+                                        trained AI proctoring systems, and made floor layouts that helped close 3 major
+                                        accounts.</p>
+                                </div>
+                            </div>
+                        </button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel-section" id="skills">
+            <div class="section-shell">
+                <div class="section-heading reveal">
+                    <p class="kicker">Skills</p>
+                    <h2>Built for technical support, systems, and service operations.</h2>
+                    <p class="lead">
+                        A practical mix of remote support, account management, incident handling, retail systems,
+                        collaboration tools, network troubleshooting, and AI-enabled workflow support.
+                    </p>
+                </div>
+
+                <div class="features reveal">
+                    <article class="feature">
+                        <h3>Support, Systems, and Retail</h3>
+                        <p>Comfortable handling Tier 1 and Tier 2 troubleshooting, account access, remote sessions,
+                            incident management, user training, account provisioning, configuration, and retail/POS
+                            environments.</p>
+                        <div class="skill-cloud">
+                            <span>Microsoft 365</span>
+                            <span>Outlook</span>
+                            <span>Active Directory</span>
+                            <span>Entra ID</span>
+                            <span>SSO</span>
+                            <span>Windows</span>
+                            <span>macOS</span>
+                            <span>VMware</span>
+                            <span>AVD/VDI</span>
+                            <span>TCP/IP</span>
+                            <span>DNS</span>
+                            <span>DHCP</span>
+                            <span>VPN Conditional Access</span>
+                            <span>POS</span>
+                            <span>EFTPOS</span>
+                            <span>Manhattan Active Omni</span>
+                            <span>GOMS</span>
+                            <span>Oracle Retail</span>
+                            <span>Datto RMM</span>
+                            <span>TeamViewer</span>
+                            <span>LogMeIn</span>
+                        </div>
+                    </article>
+
+                    <article class="feature">
+                        <h3>CRM, Collaboration, and AI Tools</h3>
+                        <p>
+                            Experienced with ticketing, collaboration, documentation, API testing, light scripting, and
+                            modern AI tools used to speed up support research and communication.
+                        </p>
+                        <div class="skill-cloud">
+                            <span>ServiceNow</span>
+                            <span>Jira</span>
+                            <span>Zendesk</span>
+                            <span>Salesforce</span>
+                            <span>Hubstaff</span>
+                            <span>Microsoft Teams</span>
+                            <span>Slack</span>
+                            <span>Zoom</span>
+                            <span>Loom</span>
+                            <span>Workplace from Meta</span>
+                            <span>Google Workspace</span>
+                            <span>Excel</span>
+                            <span>SharePoint</span>
+                            <span>OneDrive</span>
+                            <span>Dropbox</span>
+                            <span>Google Drive</span>
+                            <span>Postman API</span>
+                            <span>GitHub</span>
+                            <span>Visual Studio</span>
+                            <span>PowerShell</span>
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                            <span>ChatGPT</span>
+                            <span>Claude</span>
+                            <span>Gemini</span>
+                            <span>Codex</span>
+                            <span>Canva</span>
+                            <span>Adobe</span>
+                            <span>CapCut</span>
+                            <span>CorelDRAW</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel-section" id="experience">
+            <div class="section-shell">
+                <div class="section-heading reveal">
+                    <p class="kicker">Experience</p>
+                        <h2>Ten years of steady problem solving.</h2>
+                    <p class="lead">
+                        Resume-based highlights across support, application operations, service desk, online
+                        proctoring, and software solutions work.
+                    </p>
+                </div>
+
+                <div class="timeline reveal">
+                    <article class="timeline-card" tabindex="0">
+                        <div class="timeline-inner">
+                            <div class="timeline-face timeline-front">
+                                <time>Service Desk Analyst</time>
+                            </div>
+                            <div class="timeline-face timeline-back">
+                                <h3>MAR 2025 - APR 2026</h3>
+                                <p>Tata Consultancy Services | The Warehouse Group</p>
+                                <p>Contributed to the account launch,
+                                    served as the first agent dedicated to incident management, and earned consistent
+                                    Best in QA recognition.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="timeline-card" tabindex="0">
+                        <div class="timeline-inner">
+                            <div class="timeline-face timeline-front">
+                                <time>Application Support (B2B)</time>
+                            </div>
+                            <div class="timeline-face timeline-back">
+                                <h3>OCT 2022 - FEB 2025</h3>
+                                <p>Genpact Philippines | Meta Workplace and Quest VR</p>
+                                <p>Created client-facing technical
+                                    documentation, supported app deployment and VR testing, and was recognized as
+                                    Knowledge Base Master and Top Agent Performer.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="timeline-card" tabindex="0">
+                        <div class="timeline-inner">
+                            <div class="timeline-face timeline-front">
+                                <time>Help Desk Advisor</time>
+                            </div>
+                            <div class="timeline-face timeline-back">
+                                <h3>APR 2019 - OCT 2022</h3>
+                                <p>Concentrix Inc. | Rakuten Group, Inc.</p>
+                                <p>Handled first-line technical and HR support,
+                                    supported users across 29 business applications, and earned Best in Reliability.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="timeline-card" tabindex="0">
+                        <div class="timeline-inner">
+                            <div class="timeline-face timeline-front">
+                                <time>Sr. Customer Service Associate</time>
+                            </div>
+                            <div class="timeline-face timeline-back">
+                                <h3>FEB 2018 - MAR 2019</h3>
+                                <p>Asia Premiere One Source Inc. | ProctorU</p>
+                                <p>Trained AI proctoring systems for better
+                                    accuracy, handled 40 sessions across 3 monitors, and earned MVP, Best Team, and Best
+                                    in VSAT recognition.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="timeline-card" tabindex="0">
+                        <div class="timeline-inner">
+                            <div class="timeline-face timeline-front">
+                                <time>Software Solutions Specialist</time>
+                            </div>
+                            <div class="timeline-face timeline-back">
+                                <h3>JUN 2016 - FEB 2018</h3>
+                                <p>Fuji Xerox Philippines</p>
+                                <p>Delivered field-based support for software solutions,
+                                    handled 100+ top clients for technical and upgrade needs, and created floor layouts
+                                    that helped close 3 major accounts.</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel-section" id="contact">
+            <div class="section-shell">
+                <div class="section-heading reveal">
+                    <p class="kicker">Contact</p>
+                    <h2>Ready to make support feel easier.</h2>
+                </div>
+
+                <div class="contact-panel reveal">
+                    <div>
+                        <h2>Let's connect.</h2>
+                        <p>
+                            You can reach me by email, connect with me on LinkedIn, or open my resume to view my full
+                            work history and skill list. Based in Makati City, Philippines.
+                        </p>
+                    </div>
+                    <div class="contact-links">
+                        <a href="mailto:michellecuyos23@gmail.com">Email <span>michellecuyos23@gmail.com</span></a>
+                        <a href="tel:+639064450569">Phone <span>+63 906 445 0569</span></a>
+                        <a href="https://www.linkedin.com/in/michelle-cuyos-bb3832180/" target="_blank" rel="noopener">LinkedIn <span>michelle-cuyos</span></a>
+                        <a href="CUYOS_Michelle.pdf" target="_blank">Resume <span>Open PDF</span></a>
+                        <a href="https://github.com/mcuyos/mcuyos.github.io" target="_blank" rel="noopener" aria-label="Michelle Cuyos GitHub portfolio repository">GitHub <span>mcuyos</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="popup-overlay" id="popupOverlay" aria-hidden="true">
+        <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+            <h3 id="popupTitle"></h3>
+            <p id="popupText"></p>
+            <button class="button primary popup-close" id="popupClose" type="button">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const motionBg = document.querySelector(".motion-bg");
+        const motionFrame = document.getElementById("motionFrame");
+        const heroCopy = document.getElementById("heroCopy");
+        const heroDescription = document.getElementById("heroDescription");
+        const heroActions = document.getElementById("heroActions");
+        const hero = document.querySelector(".hero");
+        const scrollCue = document.querySelector(".scroll-cue");
+        const revealItems = document.querySelectorAll(".reveal");
+        const backgroundFrameCount = 302;
+        const backgroundFrameCache = [];
+        let currentBackgroundFrame = 0;
+
+        function clamp(value, min, max) {
+            return Math.min(Math.max(value, min), max);
+        }
+
+        function updateHero() {
+            const heroAnimationDistance = window.innerHeight * 0.95;
+            const progress = clamp(window.scrollY / Math.max(heroAnimationDistance, 1), 0, 1);
+            const pageScrollMax = document.documentElement.scrollHeight - window.innerHeight;
+            const cityProgress = clamp(window.scrollY / Math.max(pageScrollMax, 1), 0, 1);
+            const easedCityProgress = 1 - Math.pow(1 - cityProgress, 2.25);
+            const titleScale = 1 + progress * 0.38;
+            const yMove = progress * -42;
+            const fade = clamp(1 - progress * 1.35, 0, 1);
+            const cityX = 42 + easedCityProgress * 38;
+            const cityY = 50 + easedCityProgress * 3;
+            const cityZoom = 1 + easedCityProgress * 0.28;
+            const gradientProgress = clamp((window.scrollY - window.innerHeight * 0.08) / Math.max(window.innerHeight * 1.25, 1), 0, 1);
+
+            if (motionBg) {
+                motionBg.style.setProperty("--city-focus-x", cityX + "%");
+                motionBg.style.setProperty("--city-focus-y", cityY + "%");
+                motionBg.style.setProperty("--city-zoom", cityZoom);
+            }
+
+            document.documentElement.style.setProperty("--scroll-gradient", gradientProgress);
+
+            updateBackgroundFrame(cityProgress);
+
+            heroCopy.style.transform = "translate3d(0, " + yMove + "px, 0) scale(" + titleScale + ")";
+            heroCopy.style.opacity = fade;
+            heroCopy.style.filter = "blur(" + progress * 6 + "px)";
+
+            heroDescription.style.opacity = clamp(1 - progress * 1.85, 0, 1);
+            heroActions.style.opacity = clamp(1 - progress * 2.05, 0, 1);
+            heroActions.style.transform = "translateY(" + progress * 28 + "px)";
+
+            if (scrollCue) {
+                scrollCue.style.opacity = clamp(1 - window.scrollY / 260, 0, 1);
+            }
+        }
+
+        function getBackgroundFrameSrc(index) {
+            return "bg-frames/frame-" + String(index).padStart(3, "0") + ".webp";
+        }
+
+        function preloadBackgroundFrame(index) {
+            if (index < 0 || index >= backgroundFrameCount || backgroundFrameCache[index]) {
+                return;
+            }
+
+            const image = new Image();
+            image.src = getBackgroundFrameSrc(index);
+            backgroundFrameCache[index] = image;
+        }
+
+        function preloadNearbyBackgroundFrames(centerIndex) {
+            const direction = centerIndex >= currentBackgroundFrame ? 1 : -1;
+            const before = 4;
+            const after = 10;
+            const start = Math.max(0, centerIndex - before);
+            const end = Math.min(backgroundFrameCount - 1, centerIndex + after);
+
+            for (let index = start; index <= end; index += 1) {
+                preloadBackgroundFrame(index);
+            }
+
+            for (let offset = 11; offset <= 18; offset += 1) {
+                preloadBackgroundFrame(centerIndex + offset * direction);
+            }
+        }
+
+        function updateBackgroundFrame(progress) {
+            if (!motionFrame) {
+                return;
+            }
+
+            const frameIndex = Math.round(clamp(progress, 0, 1) * (backgroundFrameCount - 1));
+
+            if (frameIndex === currentBackgroundFrame) {
+                return;
+            }
+
+            preloadNearbyBackgroundFrames(frameIndex);
+
+            currentBackgroundFrame = frameIndex;
+            motionFrame.src = getBackgroundFrameSrc(frameIndex);
+        }
+
+        const revealObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                }
+            });
+        }, { threshold: 0.18 });
+
+        revealItems.forEach(function (item) {
+            revealObserver.observe(item);
+        });
+
+        let ticking = false;
+        window.addEventListener("scroll", function () {
+            if (!ticking) {
+                window.requestAnimationFrame(function () {
+                    updateHero();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        window.addEventListener("resize", updateHero);
+        window.addEventListener("load", updateHero);
+
+        preloadNearbyBackgroundFrames(0);
+
+        const overlay = document.getElementById("popupOverlay");
+        const popupTitle = document.getElementById("popupTitle");
+        const popupText = document.getElementById("popupText");
+        const popupClose = document.getElementById("popupClose");
+
+        document.querySelectorAll(".flip-card").forEach(function (card) {
+            function openCard() {
+                popupTitle.textContent = card.dataset.title;
+                popupText.textContent = card.dataset.text;
+                overlay.classList.add("active");
+                overlay.setAttribute("aria-hidden", "false");
+                popupClose.focus();
+            }
+
+            card.addEventListener("click", openCard);
+            card.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openCard();
+                }
+            });
+        });
+
+        document.querySelectorAll(".timeline-card").forEach(function (card) {
+            card.setAttribute("aria-expanded", "false");
+            let closeTimer;
+
+            function openTimelineCard() {
+                window.clearTimeout(closeTimer);
+                card.classList.remove("is-closing");
+                card.classList.add("is-open");
+                card.setAttribute("aria-expanded", "true");
+            }
+
+            function closeTimelineCard() {
+                window.clearTimeout(closeTimer);
+                card.classList.add("is-closing");
+                card.setAttribute("aria-expanded", "false");
+
+                window.requestAnimationFrame(function () {
+                    card.classList.remove("is-open");
+                });
+
+                closeTimer = window.setTimeout(function () {
+                    card.classList.remove("is-closing");
+                }, 820);
+            }
+
+            function toggleTimelineCard() {
+                if (card.classList.contains("is-open")) {
+                    closeTimelineCard();
+                } else {
+                    openTimelineCard();
+                }
+            }
+
+            card.addEventListener("click", toggleTimelineCard);
+            card.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    toggleTimelineCard();
+                }
+            });
+        });
+
+        function closePopup() {
+            overlay.classList.remove("active");
+            overlay.setAttribute("aria-hidden", "true");
+        }
+
+        popupClose.addEventListener("click", closePopup);
+        overlay.addEventListener("click", function (event) {
+            if (event.target === overlay) {
+                closePopup();
+            }
+        });
+
+        window.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closePopup();
+                document.querySelectorAll(".timeline-card.is-open").forEach(function (card) {
+                    card.classList.add("is-closing");
+                    card.setAttribute("aria-expanded", "false");
+
+                    window.requestAnimationFrame(function () {
+                        card.classList.remove("is-open");
+                    });
+
+                    window.setTimeout(function () {
+                        card.classList.remove("is-closing");
+                    }, 820);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

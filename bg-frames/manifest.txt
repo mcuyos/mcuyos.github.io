@@ -1,0 +1,4 @@
+count=302
+first_frame=1920x1080 bg.png quality=90
+motion_frames=1600px wide quality=68
+source=BG Vid.gif
