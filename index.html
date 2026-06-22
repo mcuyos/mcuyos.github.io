@@ -26,7 +26,6 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-snap-type: y proximity;
         }
 
         body {
@@ -135,19 +134,17 @@
 
         .hero {
             position: relative;
-            min-height: 125vh;
+            min-height: 100vh;
             padding: 0 clamp(22px, 6vw, 96px);
-            scroll-snap-align: start;
         }
 
         .hero-stage {
-            position: sticky;
-            top: 0;
-            height: 100vh;
+            position: relative;
+            min-height: 100vh;
             display: grid;
             align-items: end;
             justify-items: end;
-            padding-bottom: clamp(78px, 13vh, 148px);
+            padding-bottom: clamp(76px, 9vh, 112px);
         }
 
         .hero-copy {
@@ -316,8 +313,6 @@
             align-items: flex-start;
             padding: clamp(108px, 13vh, 142px) clamp(22px, 6vw, 96px) clamp(58px, 7vh, 82px);
             scroll-margin-top: 0;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
         }
 
         #profile {
@@ -796,12 +791,13 @@
             }
 
             .hero {
-                min-height: 122vh;
+                min-height: 100vh;
             }
 
             .hero-stage {
                 align-items: center;
                 justify-items: end;
+                min-height: 100vh;
                 padding-bottom: 0;
             }
 
@@ -1268,18 +1264,18 @@
         }
 
         function updateHero() {
-            const heroAnimationDistance = window.innerHeight * 0.95;
+            const heroAnimationDistance = window.innerHeight * 0.28;
             const progress = clamp(window.scrollY / Math.max(heroAnimationDistance, 1), 0, 1);
             const pageScrollMax = document.documentElement.scrollHeight - window.innerHeight;
             const cityProgress = clamp(window.scrollY / Math.max(pageScrollMax, 1), 0, 1);
             const easedCityProgress = 1 - Math.pow(1 - cityProgress, 2.25);
-            const titleScale = 1 + progress * 0.38;
-            const yMove = progress * -42;
+            const titleScale = 1 + progress * 0.18;
+            const yMove = progress * -18;
             const fade = clamp(1 - progress * 1.35, 0, 1);
             const cityX = 42 + easedCityProgress * 38;
             const cityY = 50 + easedCityProgress * 3;
             const cityZoom = 1 + easedCityProgress * 0.28;
-            const gradientProgress = clamp((window.scrollY - window.innerHeight * 0.08) / Math.max(window.innerHeight * 1.25, 1), 0, 1);
+            const gradientProgress = clamp((window.scrollY - window.innerHeight * 0.02) / Math.max(window.innerHeight * 0.52, 1), 0, 1);
 
             if (motionBg) {
                 motionBg.style.setProperty("--city-focus-x", cityX + "%");
