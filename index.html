@@ -1419,6 +1419,15 @@
             syncMotionPreference();
         });
 
+        if (motionVideo) {
+            motionVideo.addEventListener("canplay", syncMotionPreference);
+            document.addEventListener("visibilitychange", function () {
+                if (document.visibilityState === "visible") {
+                    syncMotionPreference();
+                }
+            });
+        }
+
         window.matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", syncMotionPreference);
 
         const overlay = document.getElementById("popupOverlay");
