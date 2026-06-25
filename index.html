@@ -5,17 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Michelle Cuyos | Portfolio</title>
-    <meta name="description"
-        content="Michelle Cuyos' portfolio featuring technical support, service desk, application support, and customer-focused operations experience.">
-    <link rel="canonical" href="https://mcuyos.github.io/">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Michelle Cuyos | Portfolio">
-    <meta property="og:description"
-        content="Technical support, service operations, and customer-focused solutions delivered with calm, clarity, and accountability.">
-    <meta property="og:url" content="https://mcuyos.github.io/">
-    <meta property="og:image" content="https://mcuyos.github.io/bg.png">
-    <meta property="og:image:alt" content="Michelle Cuyos with coffee against a colorful city skyline">
-    <meta name="twitter:card" content="summary_large_image">
     <style>
         :root {
             --pink: #ff82c8;
@@ -92,10 +81,6 @@
             filter: saturate(1.08) contrast(1.05);
             transform-origin: var(--city-focus-x) var(--city-focus-y);
             will-change: transform, object-position;
-        }
-
-        .motion-video {
-            background: url("bg.png") var(--city-focus-x) var(--city-focus-y) / cover no-repeat;
         }
 
         .site-header {
@@ -247,72 +232,16 @@
         }
 
         .button.primary {
-            position: relative;
-            isolation: isolate;
-            overflow: hidden;
             color: #220d22;
             border-color: transparent;
             background: linear-gradient(135deg, var(--pink), var(--peach));
             box-shadow: 0 18px 48px rgba(255, 117, 193, 0.26);
         }
 
-        .button.primary::before {
-            content: "";
-            position: absolute;
-            inset: -70% auto -70% -42%;
-            width: 30%;
-            pointer-events: none;
-            transform: rotate(18deg);
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.78), transparent);
-            animation: cta-shimmer 3.2s ease-in-out infinite;
-        }
-
-        .hero-actions .button.primary {
-            animation: cta-pulse 2.4s ease-in-out infinite;
-        }
-
         .button:hover,
         .button:focus-visible {
             transform: translateY(-2px);
             outline: none;
-        }
-
-        .button:focus-visible {
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.34), 0 18px 48px rgba(255, 117, 193, 0.34);
-        }
-
-        .button-arrow {
-            margin-left: 9px;
-            font-size: 1.15em;
-            transition: transform 0.2s ease;
-        }
-
-        .button:hover .button-arrow,
-        .button:focus-visible .button-arrow {
-            transform: translateX(4px);
-        }
-
-        @keyframes cta-shimmer {
-            0%,
-            58% {
-                left: -42%;
-            }
-
-            82%,
-            100% {
-                left: 120%;
-            }
-        }
-
-        @keyframes cta-pulse {
-            0%,
-            100% {
-                box-shadow: 0 18px 48px rgba(255, 117, 193, 0.26);
-            }
-
-            50% {
-                box-shadow: 0 18px 58px rgba(255, 117, 193, 0.48);
-            }
         }
 
         .scroll-cue {
@@ -966,9 +895,7 @@
             }
 
             .motion-frame,
-            .scroll-cue span::after,
-            .button.primary,
-            .button.primary::before {
+            .scroll-cue span::after {
                 animation: none;
             }
 
@@ -986,10 +913,7 @@
 
 <body>
     <div class="motion-bg" aria-hidden="true">
-        <video class="motion-frame motion-video" id="motionVideo" autoplay muted loop playsinline preload="auto"
-            poster="bg.png">
-            <source src="BG Vid.mp4" type="video/mp4">
-        </video>
+        <img class="motion-frame" id="motionFrame" src="bg-frames/frame-000.webp" alt="">
     </div>
 
     <header class="site-header">
@@ -1013,8 +937,7 @@
                     and customer-focused solutions.
                 </p>
                 <div class="hero-actions" id="heroActions">
-                    <a class="button primary" href="#profile">Explore My Portfolio <span class="button-arrow"
-                            aria-hidden="true">→</span></a>
+                    <a class="button primary" href="#profile">Explore Profile</a>
                     <a class="button" href="#contact">Get In Touch</a>
                 </div>
             </div>
@@ -1325,13 +1248,16 @@
 
     <script>
         const motionBg = document.querySelector(".motion-bg");
-        const motionVideo = document.getElementById("motionVideo");
+        const motionFrame = document.getElementById("motionFrame");
         const heroCopy = document.getElementById("heroCopy");
         const heroDescription = document.getElementById("heroDescription");
         const heroActions = document.getElementById("heroActions");
         const hero = document.querySelector(".hero");
         const scrollCue = document.querySelector(".scroll-cue");
         const revealItems = document.querySelectorAll(".reveal");
+        const backgroundFrameCount = 302;
+        const backgroundFrameCache = [];
+        let currentBackgroundFrame = 0;
 
         function clamp(value, min, max) {
             return Math.min(Math.max(value, min), max);
@@ -1359,6 +1285,8 @@
 
             document.documentElement.style.setProperty("--scroll-gradient", gradientProgress);
 
+            updateBackgroundFrame(cityProgress);
+
             heroCopy.style.transform = "translate3d(0, " + yMove + "px, 0) scale(" + titleScale + ")";
             heroCopy.style.opacity = fade;
             heroCopy.style.filter = "blur(" + progress * 6 + "px)";
@@ -1372,22 +1300,51 @@
             }
         }
 
-        function syncMotionPreference() {
-            if (!motionVideo) {
+        function getBackgroundFrameSrc(index) {
+            return "bg-frames/frame-" + String(index).padStart(3, "0") + ".webp";
+        }
+
+        function preloadBackgroundFrame(index) {
+            if (index < 0 || index >= backgroundFrameCount || backgroundFrameCache[index]) {
                 return;
             }
 
-            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-                motionVideo.pause();
+            const image = new Image();
+            image.src = getBackgroundFrameSrc(index);
+            backgroundFrameCache[index] = image;
+        }
+
+        function preloadNearbyBackgroundFrames(centerIndex) {
+            const direction = centerIndex >= currentBackgroundFrame ? 1 : -1;
+            const before = 4;
+            const after = 10;
+            const start = Math.max(0, centerIndex - before);
+            const end = Math.min(backgroundFrameCount - 1, centerIndex + after);
+
+            for (let index = start; index <= end; index += 1) {
+                preloadBackgroundFrame(index);
+            }
+
+            for (let offset = 11; offset <= 18; offset += 1) {
+                preloadBackgroundFrame(centerIndex + offset * direction);
+            }
+        }
+
+        function updateBackgroundFrame(progress) {
+            if (!motionFrame) {
                 return;
             }
 
-            const playAttempt = motionVideo.play();
-            if (playAttempt) {
-                playAttempt.catch(function () {
-                    // The poster image remains visible if autoplay is unavailable.
-                });
+            const frameIndex = Math.round(clamp(progress, 0, 1) * (backgroundFrameCount - 1));
+
+            if (frameIndex === currentBackgroundFrame) {
+                return;
             }
+
+            preloadNearbyBackgroundFrames(frameIndex);
+
+            currentBackgroundFrame = frameIndex;
+            motionFrame.src = getBackgroundFrameSrc(frameIndex);
         }
 
         const revealObserver = new IntersectionObserver(function (entries) {
@@ -1414,12 +1371,9 @@
         });
 
         window.addEventListener("resize", updateHero);
-        window.addEventListener("load", function () {
-            updateHero();
-            syncMotionPreference();
-        });
+        window.addEventListener("load", updateHero);
 
-        window.matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", syncMotionPreference);
+        preloadNearbyBackgroundFrames(0);
 
         const overlay = document.getElementById("popupOverlay");
         const popupTitle = document.getElementById("popupTitle");
